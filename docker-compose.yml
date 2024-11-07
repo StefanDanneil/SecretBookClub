@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: secret_book_club
+    ports:
+      - "5434:5432"
