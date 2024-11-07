@@ -4,10 +4,8 @@ using Npgsql.NameTranslation;
 
 namespace Data;
 
-public class AppDbContext : DbContext
+internal class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-
     public DbSet<BookClub> BookClubs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

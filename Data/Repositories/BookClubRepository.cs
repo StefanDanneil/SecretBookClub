@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories;
 
-public class BookClubRepository(AppDbContext dbContext) : IBookClubRepository
+internal class BookClubRepository(AppDbContext dbContext) : IBookClubRepository
 {
     public async Task<BookClub> GetByIdAsync(int id)
     {
