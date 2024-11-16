@@ -19,18 +19,18 @@ dotnet tool install --global dotnet-ef
 ### Updating the Database
 
 ```bash
-dotnet ef database update --project Persistence --startup-project Web
+dotnet ef database update --project Infrastructure/Persistence --startup-project Web
 ```
 
 ### Rolling Back a Migration
 
 ```bash
-dotnet ef database update <MigrationName> --project Persistence --startup-project Web
+dotnet ef database update <MigrationName> --project Infrastructure/Persistence --startup-project Web
 ```
 
 ### Remove Last Migration: 
 If you need to delete the latest migration without applying it to the database, use:
 
 ```bash
-dotnet ef migrations remove --project Persistence --startup-project Web
+dotnet ef migrations remove --project Infrastructure/Persistence --startup-project Web
 ```
