@@ -34,19 +34,10 @@ internal sealed class UserService(IRepositoryManager repositoryManager) : IUserS
     }
 
     public async Task<UserDto> CreateAsync(
-        int bookClubId,
         UserForCreationDto userForCreationDto,
         CancellationToken cancellationToken = default
     )
     {
-        var bookClub = await repositoryManager.BookClubRepository.GetByIdAsync(
-            bookClubId,
-            cancellationToken
-        );
-        if (bookClub is null)
-        {
-            throw new BookClubNotFoundException(bookClubId);
-        }
         var user = userForCreationDto.Adapt<User>();
         repositoryManager.UserRepository.Insert(user);
         await repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);

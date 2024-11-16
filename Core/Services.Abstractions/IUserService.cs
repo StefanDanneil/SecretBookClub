@@ -10,7 +10,6 @@ public interface IUserService
     );
     Task<UserDto> GetByIdAsync(int userId, CancellationToken cancellationToken);
     Task<UserDto> CreateAsync(
-        int ownerId,
         UserForCreationDto userForCreationDto,
         CancellationToken cancellationToken = default
     );

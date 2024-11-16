@@ -35,13 +35,11 @@ public class UserController(IServiceManager serviceManager) : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<UserDto>> CreateUser(
-        int ownerId,
         [FromBody] UserForCreationDto userForCreationDto,
         CancellationToken cancellationToken
     )
     {
         var response = await serviceManager.UserService.CreateAsync(
-            ownerId,
             userForCreationDto,
             cancellationToken
         );
