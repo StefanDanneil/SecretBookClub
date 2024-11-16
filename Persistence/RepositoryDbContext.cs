@@ -1,16 +1,18 @@
-﻿using Data.Entities;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.NameTranslation;
 
-namespace Data;
+namespace Persistence;
 
-internal class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public sealed class RepositoryDbContext(DbContextOptions<RepositoryDbContext> options)
+    : DbContext(options)
 {
     public DbSet<BookClub> BookClubs { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(RepositoryDbContext).Assembly);
 
         ConfigureNamingConventions(modelBuilder);
     }
@@ -22,7 +24,9 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(
         foreach (var entity in modelBuilder.Model.GetEntityTypes())
         {
             // Set table name to snake_case
-            entity.SetTableName(snakeCaseNameTranslator.TranslateMemberName(entity.GetTableName() ?? string.Empty));
+            entity.SetTableName(
+                snakeCaseNameTranslator.TranslateMemberName(entity.GetTableName() ?? string.Empty)
+            );
 
             // Set all property names to snake_case
             foreach (var property in entity.GetProperties())
@@ -33,17 +37,23 @@ internal class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(
             // Set foreign key names to snake_case
             foreach (var key in entity.GetKeys())
             {
-                key.SetName(snakeCaseNameTranslator.TranslateMemberName(key.GetName()));
+                var name = key.GetName();
+                if (name is not null)
+                    key.SetName(snakeCaseNameTranslator.TranslateMemberName(name));
             }
 
             foreach (var fk in entity.GetForeignKeys())
             {
-                fk.SetConstraintName(snakeCaseNameTranslator.TranslateMemberName(fk.GetConstraintName()));
+                var name = fk.GetConstraintName();
+                if (name is not null)
+                    fk.SetConstraintName(snakeCaseNameTranslator.TranslateMemberName(name));
             }
 
             foreach (var index in entity.GetIndexes())
             {
-                index.SetDatabaseName(snakeCaseNameTranslator.TranslateMemberName(index.GetDatabaseName()));
+                var name = index.GetDatabaseName();
+                if (name is not null)
+                    index.SetDatabaseName(name);
             }
         }
     }

@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Persistence</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,6 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations\" />
+      <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 </Project>
