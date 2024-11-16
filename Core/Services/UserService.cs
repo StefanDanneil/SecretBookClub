@@ -44,17 +44,14 @@ internal sealed class UserService(IRepositoryManager repositoryManager) : IUserS
         return user.Adapt<UserDto>();
     }
 
-    public async Task DeleteAsync(int bookClubId, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var bookClub = await repositoryManager.BookClubRepository.GetByIdAsync(
-            bookClubId,
-            cancellationToken
-        );
-        if (bookClub is null)
+        var user = await repositoryManager.UserRepository.GetByIdAsync(id, cancellationToken);
+        if (user is null)
         {
-            throw new BookClubNotFoundException(bookClubId);
+            throw new UserNotFoundException(id);
         }
-        repositoryManager.BookClubRepository.Remove(bookClub);
+        repositoryManager.UserRepository.Remove(user);
         await repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
     }
 }

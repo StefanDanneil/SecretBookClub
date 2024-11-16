@@ -10,13 +10,13 @@ internal sealed class BookClubRepository(RepositoryDbContext dbContext) : IBookC
         CancellationToken cancellationToken = default
     ) => await dbContext.BookClubs.Include(x => x.Members).ToListAsync(cancellationToken);
 
-    public async Task<BookClub> GetByIdAsync(
+    public async Task<BookClub?> GetByIdAsync(
         int id,
         CancellationToken cancellationToken = default
     ) =>
         await dbContext
             .BookClubs.Include(x => x.Members)
-            .FirstAsync(x => x.Id == id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public void Insert(BookClub owner) => dbContext.BookClubs.Add(owner);
 

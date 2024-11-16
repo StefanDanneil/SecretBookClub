@@ -62,6 +62,12 @@ public abstract class IntegrationTest
         return await GetDeserializedResponse<T>(response);
     }
 
+    protected async Task<DeserializedHttpResponse<T>> HttpPut<T>(string path, object payload)
+    {
+        var response = await _client.PutAsync(path, PreparePayload(payload));
+        return await GetDeserializedResponse<T>(response);
+    }
+
     private static StringContent? PreparePayload(object? payload)
     {
         if (payload is null)

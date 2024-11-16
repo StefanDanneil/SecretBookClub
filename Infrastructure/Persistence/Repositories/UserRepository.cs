@@ -14,8 +14,8 @@ internal sealed class UserRepository(RepositoryDbContext dbContext) : IUserRepos
             .Users.Where(x => x.BookClubs.Any(b => b.Id == bookClubId))
             .ToListAsync(cancellationToken);
 
-    public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
-        await dbContext.Users.FirstAsync(x => x.Id == id, cancellationToken);
+    public async Task<User?> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
+        await dbContext.Users.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 
     public void Insert(User account) => dbContext.Users.Add(account);
 
