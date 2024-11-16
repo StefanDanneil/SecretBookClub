@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 
-namespace IntegrationTests;
+namespace Integration;
 
 internal class ApiFactory : WebApplicationFactory<Program>
 {

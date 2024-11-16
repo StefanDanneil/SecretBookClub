@@ -1,7 +1,7 @@
 using System.Net;
 using Contracts;
 
-namespace IntegrationTests;
+namespace Integration.Tests;
 
 [TestClass]
 public class BookClubControllerTests : IntegrationTest
