@@ -16,9 +16,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Persistence\Persistence.csproj" />
-      <ProjectReference Include="..\Presentation\Presentation.csproj" />
-      <ProjectReference Include="..\Services\Services.csproj" />
+      <ProjectReference Include="..\Infrastructure\Persistence\Persistence.csproj" />
+      <ProjectReference Include="..\Infrastructure\Presentation\Presentation.csproj" />
+      <ProjectReference Include="..\Core\Services\Services.csproj" />
     </ItemGroup>
 
 </Project>
