@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
@@ -24,14 +25,14 @@ public abstract partial class IntegrationTest
         return context;
     }
 
-    // protected async Task<T?> FindEntityById<T>(int id)
-    //     where T : class, IEntity
-    // {
-    //     await using var context = CreateDbContext();
-    //     return await context.Set<T>().FindAsync(id);
-    // }
+    protected async Task<T?> FindEntityByIdAsync<T>(int id)
+        where T : class, IEntity
+    {
+        await using var context = CreateDbContext();
+        return await context.Set<T>().FindAsync(id);
+    }
 
-    protected async Task<TEntity> CreateEntity<TEntity>(TEntity entity)
+    protected async Task<TEntity> CreateEntityAsync<TEntity>(TEntity entity)
         where TEntity : class
     {
         await using var context = CreateDbContext();

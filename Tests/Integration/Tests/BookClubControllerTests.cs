@@ -24,8 +24,8 @@ public class BookClubControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_get_all_book_clubs()
     {
-        var firstBookClub = await CreateEntity(new BookClub { Name = "My First Club" });
-        var secondBookClub = await CreateEntity(new BookClub { Name = "My Second Club" });
+        var firstBookClub = await CreateEntityAsync(new BookClub { Name = "My First Club" });
+        var secondBookClub = await CreateEntityAsync(new BookClub { Name = "My Second Club" });
 
         var response = await GetAsync<IEnumerable<BookClubDto>>("BookClub");
 
@@ -46,8 +46,8 @@ public class BookClubControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_get_a_specific_book_club_by_id()
     {
-        await CreateEntity(new BookClub { Name = "My First Club" });
-        var secondBookClub = await CreateEntity(new BookClub { Name = "My Second Club" });
+        await CreateEntityAsync(new BookClub { Name = "My First Club" });
+        var secondBookClub = await CreateEntityAsync(new BookClub { Name = "My Second Club" });
 
         var response = await GetAsync<BookClubDto>($"BookClub/{secondBookClub.Id}");
 
@@ -59,7 +59,7 @@ public class BookClubControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_update_a_book_club()
     {
-        var originalBookClub = await CreateEntity(new BookClub { Name = "My First Club" });
+        var originalBookClub = await CreateEntityAsync(new BookClub { Name = "My First Club" });
 
         var response = await PutAsync<BookClubDto>(
             $"BookClub/{originalBookClub.Id}",
@@ -74,7 +74,7 @@ public class BookClubControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_delete_a_book_club()
     {
-        var bookClubToDelete = await CreateEntity(new BookClub { Name = "My First Club" });
+        var bookClubToDelete = await CreateEntityAsync(new BookClub { Name = "My First Club" });
 
         var firstGetResponse = await GetAsync($"BookClub/{bookClubToDelete.Id}");
         var deleteResponse = await DeleteAsync($"BookClub/{bookClubToDelete.Id}");

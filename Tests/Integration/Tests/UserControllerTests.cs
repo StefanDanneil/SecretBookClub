@@ -21,8 +21,8 @@ public class UserControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_get_a_specific_user_by_id()
     {
-        await CreateEntity(new User { Name = "My First User" });
-        var secondUser = await CreateEntity(new User { Name = "My Second User" });
+        await CreateEntityAsync(new User { Name = "My First User" });
+        var secondUser = await CreateEntityAsync(new User { Name = "My Second User" });
 
         var response = await GetAsync<UserDto>($"User/{secondUser.Id}");
 
@@ -34,7 +34,7 @@ public class UserControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_delete_a_user()
     {
-        var userToDelete = await CreateEntity(new User { Name = "My First User" });
+        var userToDelete = await CreateEntityAsync(new User { Name = "My First User" });
 
         var firstGetResponse = await GetAsync($"User/{userToDelete.Id}");
         var deleteResponse = await DeleteAsync($"User/{userToDelete.Id}");
