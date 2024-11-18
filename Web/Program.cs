@@ -38,4 +38,5 @@ app.MapControllers();
 
 app.Run();
 
+// I'm here in order for Program to be available in integration tests
 public partial class Program;

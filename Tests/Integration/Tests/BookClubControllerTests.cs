@@ -10,7 +10,7 @@ public class BookClubControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_create_a_new_book_club()
     {
-        var response = await HttpPost<BookClubDto>(
+        var response = await PostAsync<BookClubDto>(
             "BookClub",
             new BookClubForCreationDto("My Book Club")
         );
@@ -27,7 +27,7 @@ public class BookClubControllerTests : IntegrationTest
         var firstBookClub = await CreateEntity(new BookClub { Name = "My First Club" });
         var secondBookClub = await CreateEntity(new BookClub { Name = "My Second Club" });
 
-        var response = await HttpGet<IEnumerable<BookClubDto>>("BookClub");
+        var response = await GetAsync<IEnumerable<BookClubDto>>("BookClub");
 
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         Assert.AreEqual(2, response.Content?.Count());
@@ -49,7 +49,7 @@ public class BookClubControllerTests : IntegrationTest
         await CreateEntity(new BookClub { Name = "My First Club" });
         var secondBookClub = await CreateEntity(new BookClub { Name = "My Second Club" });
 
-        var response = await HttpGet<BookClubDto>($"BookClub/{secondBookClub.Id}");
+        var response = await GetAsync<BookClubDto>($"BookClub/{secondBookClub.Id}");
 
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         Assert.AreEqual(secondBookClub.Id, response.Content?.Id);
@@ -61,7 +61,7 @@ public class BookClubControllerTests : IntegrationTest
     {
         var originalBookClub = await CreateEntity(new BookClub { Name = "My First Club" });
 
-        var response = await HttpPut<BookClubDto>(
+        var response = await PutAsync<BookClubDto>(
             $"BookClub/{originalBookClub.Id}",
             new BookClubForUpdateDto("My new name")
         );
@@ -76,14 +76,12 @@ public class BookClubControllerTests : IntegrationTest
     {
         var bookClubToDelete = await CreateEntity(new BookClub { Name = "My First Club" });
 
-        var firstGetResponse = await HttpGet<BookClubDto>($"BookClub/{bookClubToDelete.Id}");
-        var deleteResponse = await HttpDelete<string>($"BookClub/{bookClubToDelete.Id}");
-        var secondGetResponse = await HttpGet<string>($"BookClub/{bookClubToDelete.Id}");
+        var firstGetResponse = await GetAsync($"BookClub/{bookClubToDelete.Id}");
+        var deleteResponse = await DeleteAsync($"BookClub/{bookClubToDelete.Id}");
+        var secondGetResponse = await GetAsync($"BookClub/{bookClubToDelete.Id}");
 
         Assert.AreEqual(HttpStatusCode.OK, firstGetResponse.StatusCode);
         Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
         Assert.AreEqual(HttpStatusCode.NotFound, secondGetResponse.StatusCode);
-
-        Assert.IsNull(deleteResponse.Content);
     }
 }

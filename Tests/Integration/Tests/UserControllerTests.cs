@@ -10,7 +10,7 @@ public class UserControllerTests : IntegrationTest
     [TestMethod]
     public async Task it_is_possible_to_create_a_new_user()
     {
-        var response = await HttpPost<UserDto>("User", new UserForCreationDto("My First User"));
+        var response = await PostAsync<UserDto>("User", new UserForCreationDto("My First User"));
 
         Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
         Assert.IsNotNull(response.Content?.Id);
@@ -24,7 +24,7 @@ public class UserControllerTests : IntegrationTest
         await CreateEntity(new User { Name = "My First User" });
         var secondUser = await CreateEntity(new User { Name = "My Second User" });
 
-        var response = await HttpGet<UserDto>($"User/{secondUser.Id}");
+        var response = await GetAsync<UserDto>($"User/{secondUser.Id}");
 
         Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         Assert.AreEqual(secondUser.Id, response.Content?.Id);
@@ -36,14 +36,12 @@ public class UserControllerTests : IntegrationTest
     {
         var userToDelete = await CreateEntity(new User { Name = "My First User" });
 
-        var firstGetResponse = await HttpGet<UserDto>($"User/{userToDelete.Id}");
-        var deleteResponse = await HttpDelete<string>($"User/{userToDelete.Id}");
-        var secondGetResponse = await HttpGet<string>($"User/{userToDelete.Id}");
+        var firstGetResponse = await GetAsync($"User/{userToDelete.Id}");
+        var deleteResponse = await DeleteAsync($"User/{userToDelete.Id}");
+        var secondGetResponse = await GetAsync($"User/{userToDelete.Id}");
 
         Assert.AreEqual(HttpStatusCode.OK, firstGetResponse.StatusCode);
         Assert.AreEqual(HttpStatusCode.NoContent, deleteResponse.StatusCode);
         Assert.AreEqual(HttpStatusCode.NotFound, secondGetResponse.StatusCode);
-
-        Assert.IsNull(deleteResponse.Content);
     }
 }
