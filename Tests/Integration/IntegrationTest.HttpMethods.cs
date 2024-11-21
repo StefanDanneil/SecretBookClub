@@ -6,6 +6,9 @@ namespace Integration;
 
 public abstract partial class IntegrationTest
 {
+    private readonly JsonSerializerOptions _serializerOptions =
+        new() { PropertyNameCaseInsensitive = true };
+
     protected async Task<ApiResponse<T>> GetAsync<T>(string path)
     {
         var response = await _client.GetAsync(path);
